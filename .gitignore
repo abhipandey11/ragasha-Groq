@@ -8,8 +8,5 @@ __pycache__/
 # Virtual env
 venv/
 
-# Database
-chroma_db/
-
 # OS files
 .DS_Store
