@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Env file (VERY IMPORTANT)
+.env
+
+# Virtual env
+venv/
+
+# Database
+chroma_db/
+
+# OS files
+.DS_Store
