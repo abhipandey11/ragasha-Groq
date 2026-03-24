@@ -8,28 +8,27 @@ from app.vector_store import collection
 app = FastAPI()
 
 DATA_DIR = "data/docs"
+loaded = False   # ✅ global flag
 
 
 class Query(BaseModel):
     question: str
 
 
-# ✅ Auto load documents only once
-@app.on_event("startup")
-def load_documents():
-    if collection.count() > 0:
-        print("Data already loaded ✅")
+def load_data_once():
+    global loaded
+
+    if loaded or collection.count() > 0:
         return
 
     print("Loading documents...")
 
     for file in os.listdir(DATA_DIR):
         if file.endswith(".pdf"):
-            file_path = os.path.join(DATA_DIR, file)
-            print(f"Processing: {file}")
-            process_pdf(file_path)
+            process_pdf(os.path.join(DATA_DIR, file))
 
-    print("All documents loaded ✅")
+    loaded = True
+    print("Documents loaded ✅")
 
 
 @app.get("/")
@@ -39,4 +38,5 @@ def home():
 
 @app.post("/ask")
 def ask(q: Query):
+    load_data_once()   # ✅ load only when needed
     return {"answer": ask_question(q.question)}
