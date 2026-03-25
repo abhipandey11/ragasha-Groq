@@ -12,7 +12,7 @@ if st.button("Ask"):
     if query:
         with st.spinner("Thinking..."):
             res = requests.post(
-                "https://ragasha-groq-backend.onrender.com/ask",
+                " http://127.0.0.1:8000/ask",
                 json={"question": query}
             )
 
